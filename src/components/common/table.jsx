@@ -1,13 +1,6 @@
 import React from "react";
 
-const Like = ({ liked, onLike }) => {
-  const styles = () => {
-    if (liked) {
-      return "fa fa-heart";
-    }
-    return "fa fa-heart-o";
-  };
-
+const Table = ({ liked, onLike }) => {
   return (
     <div>
       <i
@@ -20,4 +13,4 @@ const Like = ({ liked, onLike }) => {
   );
 };
 
-export default Like;
+export default Table;

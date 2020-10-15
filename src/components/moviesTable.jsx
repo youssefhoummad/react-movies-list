@@ -3,22 +3,32 @@ import Like from "./common/like";
 import TableBody from "./common/tableBady";
 import TableHeader from "./common/tableHeader";
 
-const MoviesTable = ({ movies, onLiked, onDelete, sortColumn, onSort }) => {
+const MoviesTable = ({ movies, onLike, onDelete, sortColumn, onSort }) => {
   const columns = [
     { path: "title", label: "Title" },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" }
+    {
+      key: "like",
+      content: (movie) => (
+        <Like liked={movie.liked} onLike={() => onLike(movie)} />
+      )
+    },
+    {
+      key: "delete",
+      content: (movie) => (
+        <button className="btn btn-danger" onClick={() => onDelete(movie)}>
+          delete
+        </button>
+      )
+    }
   ];
 
   return (
-    <table className="table table-bordered">
+    <table className="table">
       <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
-      <tbody>
-        <TableBody data={movies} columns={columns} />
-      </tbody>
+      <TableBody data={movies} columns={columns} />
     </table>
   );
 };

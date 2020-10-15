@@ -2,16 +2,23 @@ import React from "react";
 import _ from "lodash";
 
 const TableBody = ({ data, columns }) => {
+  const renderCell = (item, col) => {
+    if (col.content) return col.content(item);
+    return _.get(item, col.path);
+  };
+
   return (
-    <React.Fragment>
+    <tbody>
       {data.map((item) => (
-        <tr>
+        <tr key={item._id}>
           {columns.map((col) => (
-            <td>{_.get(item, col.path)}</td>
+            <td key={item._id + (col.path || col.key)}>
+              {renderCell(item, col)}
+            </td>
           ))}
         </tr>
       ))}
-    </React.Fragment>
+    </tbody>
   );
 };
 
