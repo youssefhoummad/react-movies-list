@@ -1,15 +1,13 @@
 import React from "react";
+import TableBody from "./tableBady";
+import TableHeader from "./tableHeader";
 
-const Table = ({ liked, onLike }) => {
+const Table = ({ data, columns, sortColumn, onSort, onLike, onDelete }) => {
   return (
-    <div>
-      <i
-        style={{ cursor: "pointer" }}
-        onClick={onLike}
-        className={styles()}
-        aria-hidden="true"
-      />
-    </div>
+    <table className="table">
+      <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
+      <TableBody data={data} columns={columns} />
+    </table>
   );
 };
 
