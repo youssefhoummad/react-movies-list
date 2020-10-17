@@ -1,6 +1,6 @@
 import React from "react";
 
-const Rentals = ({}) => {
+const Rentals = () => {
   return <h1>Rentals</h1>;
 };
 

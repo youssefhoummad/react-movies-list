@@ -1,6 +1,6 @@
 import React from "react";
 
-const NotFound = ({}) => {
+const NotFound = () => {
   return <h1>404</h1>;
 };
 
