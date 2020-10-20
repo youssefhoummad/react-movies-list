@@ -37,9 +37,14 @@ const NavBar = () => {
           </li>
         </ul>
       </div>
-      <NavLink className="nav-link" to="/login">
-        login
-      </NavLink>
+      <div className="navbar-nav">
+        <NavLink className="nav-link" to="/login">
+          login
+        </NavLink>
+        <NavLink className="nav-link" to="/register">
+          register
+        </NavLink>
+      </div>
     </nav>
   );
 };

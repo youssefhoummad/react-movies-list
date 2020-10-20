@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
@@ -6,6 +6,7 @@ import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 4;
 
@@ -82,7 +83,10 @@ const Movies = () => {
         />
       </div>
       <div className="col">
-        <p>Showing {count} movies in the database</p>
+        <Link to="/movies/new" className="btn btn-primary my-2">
+          New movie
+        </Link>
+        <p className="mt-2">Showing {count} movies in the database</p>
         <MoviesTable
           movies={data}
           onDelete={handleDelete}
