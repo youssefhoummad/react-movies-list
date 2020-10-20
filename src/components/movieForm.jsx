@@ -33,26 +33,25 @@ class MovieForm extends Form {
   };
 
   componentDidMount() {
-    const genres = getGenres();
-    this.setState({ genres });
+    this.setState({ genres: getGenres() });
 
     const movieId = this.props.match.params.id;
+
     if (movieId === "new") return;
 
     const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace("/not-found");
+    if (!movie) return this.props.history.replace("/404");
+    console.log("form componentDidMount: ", movieId);
 
-    this.setState({ data: this.mapToViewModel(movie) });
-  }
-
-  mapToViewModel(movie) {
-    return {
-      _id: movie._id,
-      title: movie.title,
-      genreId: movie.genre._id,
-      numberInStock: movie.numberInStock,
-      dailyRentalRate: movie.dailyRentalRate
-    };
+    this.setState({
+      data: {
+        _id: movie._id,
+        title: movie.title,
+        genreId: movie.genre._id,
+        numberInStock: movie.numberInStock,
+        dailyRentalRate: movie.dailyRentalRate
+      }
+    });
   }
 
   doSubmit = () => {
@@ -63,12 +62,12 @@ class MovieForm extends Form {
 
   render() {
     return (
-      <div>
+      <div className="w-50 m-auto">
         <h1>Movie Form</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
+          {this.renderInput("title", "Tilte")}
           {this.renderSelect("genreId", "Genre", this.state.genres)}
-          {this.renderInput("numberInStock", "Number in Stock", "number")}
+          {this.renderInput("numberInStock", "Stock", "number")}
           {this.renderInput("dailyRentalRate", "Rate")}
           {this.renderButton("Save")}
         </form>

@@ -1,14 +1,6 @@
 import React from "react";
 
-const Input = ({
-  name,
-  value,
-  label,
-  error,
-  onChange,
-  typeProperty,
-  autoFocus
-}) => {
+const Input = ({ name, value, label, error, onChange, ...rest }) => {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
@@ -17,19 +9,12 @@ const Input = ({
         value={value}
         name={name}
         id={name}
-        type={typeProperty}
-        autoFocus={autoFocus}
+        {...rest}
         className="form-control"
       />
       {error && <small className="form-text text-danger">* {error}</small>}
     </div>
   );
-};
-
-Input.defaultProps = {
-  typeProperty: "text",
-  autoFocus: false,
-  errors: null
 };
 
 export default Input;
