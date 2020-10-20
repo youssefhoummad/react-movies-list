@@ -7,7 +7,7 @@ import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-
+import Input from "./common/input";
 const PAGE_SIZE = 4;
 
 const Movies = () => {
@@ -16,6 +16,7 @@ const Movies = () => {
   const [currentGenre, setCurrentGenre] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState({ path: "Title", order: "asc" });
+  const [search, setSearch] = useState("");
 
   // ComponentDidMount
   useEffect(() => {
@@ -48,18 +49,31 @@ const Movies = () => {
   const handeleSelectItem = (item) => {
     setCurrentGenre(item);
     setCurrentPage(1);
+    setSearch("");
   };
 
   const handleSort = (path, order) => {
     setSortColumn({ path, order });
   };
 
-  const getPageData = () => {
-    const filterd =
-      currentGenre && currentGenre._id
-        ? movies.filter((movie) => movie.genre._id === currentGenre._id)
-        : movies;
+  const handleSearch = ({ currentTarget: input }) => {
+    setCurrentGenre({ name: "all" });
+    setCurrentPage(1);
+    setSearch(input.value);
+  };
 
+  const getPageData = () => {
+    let filterd;
+    if (!search) {
+      filterd =
+        currentGenre && currentGenre._id
+          ? movies.filter((movie) => movie.genre._id === currentGenre._id)
+          : movies;
+    } else {
+      filterd = movies.filter((movie) =>
+        movie.title.toLowerCase().startsWith(search.toLowerCase())
+      );
+    }
     const sorted = _.orderBy(filterd, [sortColumn.path], [sortColumn.order]);
     const movies_page = paginate(sorted, currentPage, PAGE_SIZE);
 
@@ -83,9 +97,15 @@ const Movies = () => {
         />
       </div>
       <div className="col">
-        <Link to="/movies/new" className="btn btn-primary my-2">
+        <Link to="/movies/new" className="btn btn-primary mt-2">
           New movie
         </Link>
+        <Input
+          value={search}
+          name="search"
+          placeholder="search..."
+          onChange={handleSearch}
+        />
         <p className="mt-2">Showing {count} movies in the database</p>
         <MoviesTable
           movies={data}
