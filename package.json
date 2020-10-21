@@ -9,15 +9,16 @@
   "main": "src/index.js",
   "dependencies": {
     "bootstrap": "4.5.2",
+    "firebase": "7.24.0",
     "font-awesome": "4.7.0",
     "joi-browser": "13.4.0",
-    "jquery": "3.5.1",
     "lodash": "4.17.20",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-router-dom": "5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-toastify": "6.0.9"
   },
   "devDependencies": {
     "typescript": "3.8.3"

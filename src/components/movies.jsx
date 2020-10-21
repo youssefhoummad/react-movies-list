@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
-import { getGenres } from "../services/fakeGenreService";
+// import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 import Input from "./common/input";
+import useDatabase from "../services/useDatabase";
+
 const PAGE_SIZE = 4;
 
 const Movies = () => {
@@ -19,10 +21,12 @@ const Movies = () => {
   const [search, setSearch] = useState("");
 
   // ComponentDidMount
+  const { docs: _genres } = useDatabase("genres");
+  const { docs: _movies } = useDatabase("movies");
   useEffect(() => {
-    setMovies(getMovies());
-    setGenres([{ name: "all" }, ...getGenres()]);
-  }, []);
+    setMovies(_movies);
+    setGenres([{ name: "all" }, ..._genres]);
+  }, [_genres, _movies]);
 
   const handleDelete = (m) => {
     const filterd = movies.filter((movie) => movie._id !== m._id);

@@ -9,7 +9,6 @@ import NotFound from "./components/notFound";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/RegisterForm";
-import NewMovieForm from "./components/newMovieForm";
 
 export default function App() {
   return (
