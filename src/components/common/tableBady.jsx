@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 
 const TableBody = ({ data, columns }) => {

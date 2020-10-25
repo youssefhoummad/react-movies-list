@@ -1,49 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { getMovies } from "../services/fakeMovieService";
+import React, { useState } from "react";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
-// import { getGenres } from "../services/fakeGenreService";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 import Input from "./common/input";
 import useDatabase from "../services/useDatabase";
-
+import { database } from "../firebase";
 const PAGE_SIZE = 4;
 
 const Movies = () => {
-  const [movies, setMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
   const [currentGenre, setCurrentGenre] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState({ path: "Title", order: "asc" });
   const [search, setSearch] = useState("");
 
-  // ComponentDidMount
-  const { docs: _genres } = useDatabase("genres");
-  const { docs: _movies } = useDatabase("movies");
-  useEffect(() => {
-    setMovies(_movies);
-    setGenres([{ name: "all" }, ..._genres]);
-  }, [_genres, _movies]);
+  const { docs: movies } = useDatabase("movies");
+  const { docs: genres } = useDatabase("genres");
 
   const handleDelete = (m) => {
-    const filterd = movies.filter((movie) => movie._id !== m._id);
-    setMovies(filterd);
+    database.collection("movies").doc(m._id).delete();
   };
 
   const handlerLiked = (m) => {
-    let new_movies = [...movies];
-    const index = new_movies.indexOf(m);
     if (m.liked) {
-      m.liked = false;
+      database.collection("movies").doc(m._id).update({ liked: false });
     } else {
-      m.liked = true;
+      database.collection("movies").doc(m._id).update({ liked: true });
     }
-    new_movies[index] = { ...m };
-
-    setMovies(new_movies);
   };
 
   const handlePageChange = (page) => {
@@ -89,7 +74,6 @@ const Movies = () => {
   }
 
   const { count, data } = getPageData();
-  // the and operator && to verify is select genre because 'all' has no _id
 
   return (
     <div className="row">
@@ -119,7 +103,6 @@ const Movies = () => {
           onSort={handleSort}
         />
         <Pagination
-          // pass number of all filterd movies
           itemsCount={count}
           pageSize={PAGE_SIZE}
           currentPage={currentPage}

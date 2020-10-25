@@ -1,3 +1,4 @@
+import { database } from "../firebase";
 import * as genresAPI from "./fakeGenreService";
 
 const movies = [
@@ -69,11 +70,22 @@ const movies = [
 ];
 
 export function getMovies() {
-  return movies;
+  // return movies;
+  let documents = [];
+  database
+    .collection("movies")
+    // .orderBy("createdAt", "desc")
+    .onSnapshot((snap) => {
+      snap.forEach((doc) => {
+        documents.push({ ...doc.data(), _id: doc.id });
+      });
+    });
+  return documents;
 }
 
 export function getMovie(id) {
-  return movies.find((m) => m._id === id);
+  // return movies.find((m) => m._id === id);
+  return database.collection("movies").doc(id).get();
 }
 
 export function saveMovie(movie) {
@@ -92,7 +104,9 @@ export function saveMovie(movie) {
 }
 
 export function deleteMovie(id) {
-  let movieInDb = movies.find((m) => m._id === id);
-  movies.splice(movies.indexOf(movieInDb), 1);
+  // let movieInDb = movies.find((m) => m._id === id);
+  // movies.splice(movies.indexOf(movieInDb), 1);
+  const movieInDb = database.collection("movies").doc(id);
+  movieInDb.delete();
   return movieInDb;
 }
