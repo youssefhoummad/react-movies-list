@@ -79,7 +79,7 @@ const Movies = () => {
     <div className="row">
       <div className="col-3">
         <ListGroup
-          items={genres}
+          items={[{ name: "all" }, ...genres]}
           selectedItem={currentGenre}
           onSelectItem={handeleSelectItem}
         />
